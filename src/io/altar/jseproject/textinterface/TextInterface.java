@@ -18,7 +18,6 @@ public class TextInterface {
 	private static String optionsMenuShel = ("Escolha uma opcao:\n1) Criar uma nova prateleira\n2) Editar um produto existente\n3) Consultar o detalhe de um produto\n4) Remover um produto\n5) Voltar ao ecrã anterior");
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
 		showInitialScreen();
 	}
 
