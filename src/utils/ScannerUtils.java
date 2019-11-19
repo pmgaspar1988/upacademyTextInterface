@@ -55,7 +55,7 @@ public class ScannerUtils {
 				}
 			}
 			if (existe== false) {
-				input = getInt("Tem de ser uma das opcoes!");
+				input = getInt("Tem de inserir uma das opcoes existentes!");
 			}
 		}
 		return (long)input;

@@ -43,4 +43,6 @@ public abstract class EntityRepository<T extends Entity> {
 	public T removeEntity(long id) {
 		return baseDados.remove(id);
 	}
+	
+	
 }

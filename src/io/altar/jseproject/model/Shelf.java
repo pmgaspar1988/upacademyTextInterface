@@ -7,7 +7,7 @@ public class Shelf extends Entity {
 	private int rentPrice;
 	private int count=0;
 	
-	public Shelf(Long id, int capacity, int productId, int rentPrice, int count) {
+	public Shelf(int capacity, int productId, int rentPrice, int count) {
 		
 		this.capacity = capacity;
 		this.productId = productId;

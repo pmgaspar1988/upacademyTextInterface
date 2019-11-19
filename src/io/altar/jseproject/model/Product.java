@@ -12,7 +12,6 @@ public class Product extends Entity {
 	
 	public Product(int price, float productIva) {
 		
-		
 		this.price = price;
 		this.productIva = productIva;
 		this.productPvp = (int) (price+price*(productIva/100));
@@ -32,6 +31,7 @@ public class Product extends Entity {
 
 	public void setPrice(int price) {
 		this.price = price;
+		updatePvp();
 	}
 
 	public float getProductIva() {
@@ -40,16 +40,17 @@ public class Product extends Entity {
 
 	public void setProductIva(float productIva) {
 		this.productIva = productIva;
+		updatePvp();
 	}
 
 	public int getProductPvp() {
 		return productPvp;
 	}
-
-	public void setProductPvp(int productPvp) {
-		this.productPvp = productPvp;
+	 
+	public void updatePvp() {
+		this.productPvp = (int) (this.price+this.price*(this.productIva/100));
 	}
-
+	
 	@Override
 	public String toString() {
 		return "Product [shelves=" + shelves + ", price=" + price + ", productIva=" + productIva + ", productPvp="
