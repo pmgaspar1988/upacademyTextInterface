@@ -2,7 +2,7 @@ package io.altar.jseproject.model;
 
 public class Entity {
 
-	public Long id;
+	private Long id;
 
 	public Entity() {
 		

@@ -12,7 +12,7 @@ public abstract class EntityRepository<T extends Entity> {
 
 	public Map<Long, T> baseDados = new HashMap<Long, T>();
 
-	private static long maxId;
+	private long maxId;
 
 	private long maxId() {
 		return ++maxId;

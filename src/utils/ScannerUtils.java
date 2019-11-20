@@ -16,6 +16,18 @@ public class ScannerUtils {
 		sc.nextLine();
 		return input;
 	}
+	
+//	public long getLong(String msg) {
+//		System.out.println(msg);
+//
+//		while (sc.hasNextLong() == false) {// verifica se a string pode ser int
+//			System.out.println("Tem de ser um numero!\n" + msg);
+//			sc.nextLine();// se for texto volta-se a inserir um numero
+//		}
+//		long input = sc.nextLong();
+//		sc.nextLine();
+//		return input;
+//	}
 
 	public int getInt(String msg, int min, int max) {
 		int input = 0;

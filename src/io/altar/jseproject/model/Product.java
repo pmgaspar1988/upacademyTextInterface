@@ -5,7 +5,7 @@ import java.util.ArrayList;
 
 public class Product extends Entity {
 	
-	private ArrayList<Integer> shelves;
+	private ArrayList<Long> shelves = new ArrayList<Long>();
 	private int price;
 	private float productIva;
 	private int productPvp;
@@ -17,12 +17,20 @@ public class Product extends Entity {
 		this.productPvp = (int) (price+price*(productIva/100));
 	}
 
-	public ArrayList<Integer> getShelves() {
+	public ArrayList<Long> getShelves() {
 		return shelves;
 	}
 
-	public void setShelves(ArrayList<Integer> shelves) {
+	public void setShelves(ArrayList<Long> shelves) {
 		this.shelves = shelves;
+	}
+	
+	public void addShelf(long input) {
+		this.shelves.add(input); 
+	}
+	
+	public void removeShelf(long input) {
+		this.shelves.remove(input);
 	}
 
 	public int getPrice() {
@@ -54,7 +62,7 @@ public class Product extends Entity {
 	@Override
 	public String toString() {
 		return "Product [shelves=" + shelves + ", price=" + price + ", productIva=" + productIva + ", productPvp="
-				+ productPvp + ", id=" + id + "]";
+				+ productPvp + ", id=" + this.getId() + "]";
 	}
 
 	

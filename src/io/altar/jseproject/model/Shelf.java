@@ -3,16 +3,22 @@ package io.altar.jseproject.model;
 public class Shelf extends Entity {
 
 	private int capacity;
-	private int productId;
+	private Long productId;
 	private int rentPrice;
-	private int count=0;
+
 	
-	public Shelf(int capacity, int productId, int rentPrice, int count) {
+	public Shelf(int capacity, int rentPrice) {
 		
 		this.capacity = capacity;
-		this.productId = productId;
 		this.rentPrice = rentPrice;
-		this.count = count;
+	}
+
+	public long getProductId() {
+		return productId;
+	}
+
+	public void setProductId(long productId) {
+		this.productId = productId;
 	}
 
 	public int getCapacity() {
@@ -23,14 +29,6 @@ public class Shelf extends Entity {
 		this.capacity = capacity;
 	}
 
-	public int getProductId() {
-		return productId;
-	}
-
-	public void setProductId(int productId) {
-		this.productId = productId;
-	}
-
 	public int getRentPrice() {
 		return rentPrice;
 	}
@@ -39,13 +37,13 @@ public class Shelf extends Entity {
 		this.rentPrice = rentPrice;
 	}
 
-	public int getCount() {
-		return count;
+	@Override
+	public String toString() {
+		return "Shelf [capacity=" + capacity + ", rentPrice=" + rentPrice + "]";
 	}
+	
+	
 
-	public void setCount(int count) {
-		this.count = count;
-	}
 	
 	
 	
