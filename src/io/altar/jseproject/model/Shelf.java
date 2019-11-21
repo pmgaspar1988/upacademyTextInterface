@@ -3,7 +3,7 @@ package io.altar.jseproject.model;
 public class Shelf extends Entity {
 
 	private int capacity;
-	private Long productId;
+	private Long productId=(long) 0;
 	private int rentPrice;
 
 	
@@ -39,7 +39,7 @@ public class Shelf extends Entity {
 
 	@Override
 	public String toString() {
-		return "Shelf [capacity=" + capacity + ", rentPrice=" + rentPrice + "]";
+		return "Shelf [capacity=" + capacity + ", rentPrice=" + rentPrice + ", productId=" + this.getProductId() + "]";
 	}
 	
 	

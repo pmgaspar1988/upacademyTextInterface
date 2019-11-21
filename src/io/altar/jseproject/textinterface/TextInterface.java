@@ -1,6 +1,10 @@
 package io.altar.jseproject.textinterface;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import io.altar.jseproject.model.Product;
 import io.altar.jseproject.model.Shelf;
@@ -173,24 +177,6 @@ public class TextInterface {
 		Product newProduct = new Product(sc.getInt("Insira preco base"), sc.getInt("Insira iva"));
 		baseDadosProd.createEntity(newProduct);
 		System.out.println("Produto criado com o id: " + newProduct.getId());
-//		int opcao = sc.getInt("Pretende adicionar o produto a uma prateleira?\n1)Sim\n2)Nao");
-//
-//		switch (opcao) {
-//		case 1:
-//			Collection<Long> allIds = baseDadosShel.getAllIds();
-//			long[] arrayAllIds = allIds.stream().mapToLong(l -> l).toArray();
-//			if (arrayAllIds.length != 0) {
-//				System.out.println(baseDadosShel.getAllIds());
-//				long input = sc.getLong("Insira o id da prateleira", arrayAllIds);
-//				newProduct.addShelf(input);
-//				System.out.println(newProduct);
-//			} else {
-//				System.out.println("Ainda nao foram criadas prateleiras!");
-//			}
-//			break;
-//		default:
-//			break;
-//		}
 	}
 
 	private static void removeProduct() {
@@ -200,10 +186,21 @@ public class TextInterface {
 		if (arrayAllIds.length != 0) {
 			System.out.println(baseDadosProd.getAllIds());
 			long input = sc.getLong("Insira o id do produto que quer remover", arrayAllIds);
+			removeProdFromShelves(input);
 			baseDadosProd.removeEntity(input);
 			System.out.println("Produto com o id:" + input + " removido!");
 		} else {
 			System.out.println("Nao ha produtos a remover!");
+		}
+	}
+
+	private static void removeProdFromShelves(long input) {
+		Product produto = baseDadosProd.consultEntity(input);
+		ArrayList<Long> shelfList = produto.getShelves();
+		for (Long maria : shelfList) {
+			Shelf shelf = baseDadosShel.consultEntity(maria);
+			shelf.setProductId(0);			
+			baseDadosShel.editEntity(shelf);
 		}
 	}
 
@@ -230,7 +227,7 @@ public class TextInterface {
 			System.out.println(baseDadosProd.getAllIds());
 			long input = sc.getLong("Insira o id do produto a editar", arrayAllIds);
 			Product consultedProduct = baseDadosProd.consultEntity(input);
-			int opcao = sc.getInt("O que quer editar?\n1)Preco\n2)Iva\n3)Adicionar/Remover de uma prateleira");
+			int opcao = sc.getInt("O que quer editar?\n1)Preco\n2)Iva\n3)Adicionar/Remover de uma prateleira", 1, 3);
 
 			switch (opcao) {
 			case 1:
@@ -240,9 +237,8 @@ public class TextInterface {
 				editarIvaProd(consultedProduct);
 				break;
 			case 3:
-				removerDeUmaPrateleira(consultedProduct);
-			case 4:
-				
+				addRemovePrat(consultedProduct);
+					
 			}
 			System.out.println(consultedProduct);
 
@@ -251,22 +247,30 @@ public class TextInterface {
 		}
 	}
 
-	private static void removerDeUmaPrateleira(Product produto) {
-		int opcao = sc.getInt("O que pretende fazer?\n1)Adicionar produto a uma prateleira\n2)Remover produto de uma prateleira");
+	private static void addRemovePrat(Product produto) {
+		int opcao = sc.getInt(
+				"O que pretende fazer?\n1)Adicionar produto a uma prateleira\n2)Remover produto de uma prateleira");
 
 		switch (opcao) {
 		case 1:
-			Collection<Long> allIds = baseDadosShel.getAllIds();
-			long[] arrayAllIds = allIds.stream().mapToLong(l -> l).toArray();
-			if (arrayAllIds.length != 0) {
-				System.out.println(baseDadosShel.getAllIds());
-				long idShelf = sc.getLong("Insira o id da prateleira", arrayAllIds);
+			Collection<Long> allEmptyIds = new ArrayList<Long>();
+			Collection<Shelf> allshelves = baseDadosShel.consultEntity();			
+			Stream<Shelf> emptyShelves = allshelves.stream().filter(shelf -> shelf.getProductId() == 0);
+			emptyShelves.forEach(shelf -> { 
+				System.out.print(shelf.getId() + " ");
+				allEmptyIds.add(shelf.getId());
+			});
+			System.out.println();
+			
+			long[] arrayAllEmptyIds = allEmptyIds.stream().mapToLong(l -> l).toArray();
+			
+			if (arrayAllEmptyIds.length != 0) {
+				long idShelf = sc.getLong("Insira o id da prateleira", arrayAllEmptyIds);
 				produto.addShelf(idShelf);
 				Shelf shelf = baseDadosShel.consultEntity(idShelf);
 				shelf.setProductId(produto.getId());
-				System.out.println(produto);
 			} else {
-				System.out.println("Ainda nao foram criadas prateleiras!");
+				System.out.println("Ainda nao foram criadas prateleiras ou estao todas cheias!");
 			}
 			break;
 		case 2:
@@ -276,6 +280,9 @@ public class TextInterface {
 				long[] arrayPratIds = pratIds.stream().mapToLong(l -> l).toArray();
 				long input = sc.getLong("Insira o id da prateleira de onde quer remover o produto", arrayPratIds);
 				produto.removeShelf(input);
+				Shelf shelf = baseDadosShel.consultEntity(input);
+				shelf.setProductId(0);
+				baseDadosShel.editEntity(shelf);	
 				System.out.println("Produto com o id:" + produto.getId() + " removido da prateleira com o id:" + input);
 			} else {
 				System.out.println("O produto ainda nao foi adicionado a nenhuma prateleira!");
